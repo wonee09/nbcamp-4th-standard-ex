@@ -9,6 +9,7 @@ import { StyledDiv } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addTodo } from "../../modules/todos";
+import { __addTodoThunk } from "../../modules/todos";
 
 /**
  * 컴포넌트 개요 : Todo 메인 페이지에서 제목과 내용을 입력하는 영역
@@ -78,12 +79,13 @@ function Input() {
       title,
       contents,
       isDone: false,
-      id: uuidv4(),
+      // id: uuidv4(),
     };
 
     // todo를 추가하는 reducer 호출
     // 인자 : payload
-    dispatch(addTodo(newTodo));
+    // dispatch(addTodo(newTodo));
+    dispatch(__addTodoThunk(newTodo));
 
     // state 두 개를 초기화
     setTitle("");
