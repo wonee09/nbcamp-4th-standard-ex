@@ -7,8 +7,6 @@ import RightMarginBox from "../common/RightMarginBox";
 import "./styles";
 import { StyledDiv } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import { addTodo } from "../../modules/todos";
 import { __addTodoThunk } from "../../modules/todos";
 
 /**
@@ -65,14 +63,14 @@ function Input() {
     }
 
     // 이미 존재하는 todo 항목이면 오류
-    const validationArr = todos.filter(
-      (item) => item.title === title && item.contents === contents
-    );
+    // const validationArr = todos.filter(
+    //   (item) => item.title === title && item.contents === contents
+    // );
 
     // "02" : 내용 중복 안내
-    if (validationArr.length > 0) {
-      return getErrorMsg("02", { title, contents });
-    }
+    // if (validationArr.length > 0) {
+    //   return getErrorMsg("02", { title, contents });
+    // }
 
     // 추가하려는 todo를 newTodo라는 객체로 세로 만듦
     const newTodo = {

@@ -16,10 +16,6 @@ function TodoList({ isActive }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // 모든 todos를 가지고 오는 로직이 필요!
-    // 어디서? DB에서!
-    // 왜? 화면이 맨 처음 열릴때는 비어있을 테니
-    // 그 청크를 만들어줄거에요!
     dispatch(__getTodos());
   }, []);
 
@@ -32,6 +28,9 @@ function TodoList({ isActive }) {
         {todos
           ?.filter((item) => item.isDone === !isActive)
           .map((item) => {
+            {
+              /* console.log("item", item); */
+            }
             return <Todo key={item.id} todo={item} isActive={isActive} />;
           })}
       </StyledTodoListBox>

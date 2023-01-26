@@ -1,33 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-
-// 첫 번째 인자 : 이름
-// 두 번째 인자 : 비동기함수
 
 // 0. 값 조회
 export const __getTodos = createAsyncThunk(
   "GET_TODOS",
   async (arg, thunkAPI) => {
     try {
+      // 무조건!
       const todos = await axios.get("http://localhost:4000/todos");
-      console.log("todos", todos.data);
+      // console.log("todos.data", todos.data);
       return thunkAPI.fulfillWithValue(todos.data);
-    } catch (error) {}
+    } catch (err) {
+      // 만약 오류가 나면 여기!
+      return thunkAPI.rejectWithValue(err);
+    }
   }
 );
 
 // 1. 추가
-export const __addTodoThunk = createAsyncThunk("ADD_TODO", async (arg) => {
-  try {
-    console.log("arg", arg);
-    // 시도할 내용
-    await axios.post("http://localhost:4000/todos", arg);
-  } catch (error) {
-    // 오류가 났을 때의 내용
-    console.log(error);
+export const __addTodoThunk = createAsyncThunk(
+  "ADD_TODO",
+  async (arg, thunkAPI) => {
+    try {
+      // 시도할 내용
+      const response = await axios.post("http://localhost:4000/todos", arg);
+      // console.log("response", response);
+      return thunkAPI.fulfillWithValue(response.data);
+      // return thunkAPI.fulfillWithValue(arg);
+    } catch (err) {
+      // 오류가 났을 때의 내용
+      console.log(err);
+      return thunkAPI.rejectWithValue(err);
+    }
   }
-});
+);
 
 // initial states
 const initialState = {
@@ -61,6 +67,15 @@ const todosSlice = createSlice({
   extraReducers: {
     [__getTodos.fulfilled]: (state, action) => {
       state.todos = action.payload;
+    },
+    [__getTodos.rejected]: (state, action) => {
+      //
+    },
+    [__addTodoThunk.fulfilled]: (state, action) => {
+      state.todos.push(action.payload);
+    },
+    [__addTodoThunk.rejected]: (state, action) => {
+      //
     },
   },
 });
